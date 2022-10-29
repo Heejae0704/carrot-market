@@ -18,13 +18,13 @@ const Home: NextPage = () => {
             </div>
           ))}
         </ul>
-        {/* <ul>
+        <ul>
           {['a', 'b', 'c', ''].map((c, i) => (
             <li className="bg-red-500 py-2 empty:hidden" key={i}>
               {c}
             </li>
           ))}
-        </ul> */}
+        </ul>
         <div className="flex justify-between mt-2 pt-2 border-t-2 border-dashed">
           <span>Total</span>
           <span className="font-semibold ">$99</span>
