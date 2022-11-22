@@ -7,8 +7,12 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { id } = req.query;
-  const product = await client.product.findUnique({
+  const {
+    query: { id },
+    session: { user },
+  } = req;
+
+  const post = await client.post.findUnique({
     where: {
       id: Number(id),
     },
@@ -20,25 +24,35 @@ async function handler(
           avatar: true,
         },
       },
-    },
-  });
-  const terms = product?.name.split(' ').map((word) => ({
-    name: {
-      contains: word,
-    },
-  }));
-  const relatedProducts = await client.product.findMany({
-    where: {
-      OR: terms,
-      AND: {
-        id: {
-          not: product?.id,
+      answers: {
+        select: {
+          answer: true,
+          id: true,
+          user: { select: { id: true, name: true, avatar: true } },
+        },
+      },
+      _count: {
+        select: {
+          answers: true,
+          wondering: true,
         },
       },
     },
   });
-  console.log(relatedProducts);
-  res.json({ ok: true, product, relatedProducts });
+  const isWondering = await client.wondering.findFirst({
+    where: {
+      postId: Number(id),
+      userId: user?.id,
+    },
+    select: {
+      id: true,
+    },
+  });
+  res.json({
+    ok: true,
+    post,
+    isWondering,
+  });
 }
 
 export default withApiSession(
