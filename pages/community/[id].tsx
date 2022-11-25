@@ -82,7 +82,7 @@ const CommunityPostDetail: NextPage = () => {
       reset();
       mutate();
     }
-  }, [answerData, reset]);
+  }, [answerData, reset, mutate]);
   return (
     <Layout canGoBack>
       <div>

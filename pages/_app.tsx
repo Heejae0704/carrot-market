@@ -1,8 +1,15 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
+import useUser from '@libs/client/useUser';
+import { NextComponentType } from 'next';
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface AppPropsWithAuth extends AppProps {
+  Component: NextComponentType & { isPublic?: boolean };
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithAuth) {
+  useUser(Component.isPublic);
   return (
     <SWRConfig
       value={{

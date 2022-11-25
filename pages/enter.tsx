@@ -20,7 +20,11 @@ interface MutationResult {
   ok: boolean;
 }
 
-const Enter: NextPage = () => {
+export type NextPageOpenInPublic = NextPage & {
+  isPublic: boolean;
+};
+
+const Enter: NextPageOpenInPublic = () => {
   const [enter, { loading, data, error }] =
     useMutation<MutationResult>('/api/users/enter');
   const [confirmToken, { loading: tokenLoading, data: tokenData }] =
@@ -180,4 +184,6 @@ const Enter: NextPage = () => {
     </div>
   );
 };
+
+Enter.isPublic = true;
 export default Enter;

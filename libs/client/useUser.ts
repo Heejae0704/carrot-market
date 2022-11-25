@@ -1,15 +1,22 @@
+import { User } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 
-export default function useUser() {
-  const { data, error } = useSWR('/api/users/me');
+interface ProfileResponse {
+  ok: boolean;
+  profile: User;
+}
+
+export default function useUser(isPublic = false) {
+  const { data, error } = useSWR<ProfileResponse>('/api/users/me');
   const router = useRouter();
   useEffect(() => {
+    if (isPublic) return;
     if (data && !data.ok) {
       router.replace('/enter');
     }
-  }, [data, router]);
+  }, [data, router, isPublic]);
 
   return { user: data?.profile, isLoading: !data && !error };
 }

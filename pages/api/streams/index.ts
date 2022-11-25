@@ -9,32 +9,36 @@ async function handler(
 ) {
   const {
     session: { user },
+    body: { name, price, description },
   } = req;
-  const sales = await client.sale.findMany({
-    where: {
-      userId: user?.id,
-    },
-    include: {
-      product: {
-        include: {
-          _count: {
-            select: {
-              favs: true,
-            },
+  if (req.method === 'POST') {
+    const stream = await client.stream.create({
+      data: {
+        name,
+        price,
+        description,
+        user: {
+          connect: {
+            id: user?.id,
           },
         },
       },
-    },
-  });
-  res.json({
-    ok: true,
-    sales,
-  });
+    });
+    res.json({
+      ok: true,
+      stream,
+    });
+  }
+  if (req.method === 'GET') {
+    res.json({
+      ok: true,
+    });
+  }
 }
 
 export default withApiSession(
   withHandler({
-    methods: ['GET'],
+    methods: ['GET', 'POST'],
     handler,
   })
 );
