@@ -21,12 +21,12 @@ const Stream: NextPage = () => {
         <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
         <div className="mt-5">
           <h1 className="text-3xl font-bold text-gray-900">
-            {data?.stream.name}
+            {data?.stream?.name}
           </h1>
           <span className="text-2xl block mt-3 text-gray-900">
-            $ {data?.stream.price}
+            $ {data?.stream?.price}
           </span>
-          <p className=" my-6 text-gray-700">{data?.stream.description}</p>
+          <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>

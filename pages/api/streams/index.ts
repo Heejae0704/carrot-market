@@ -30,8 +30,10 @@ async function handler(
     });
   }
   if (req.method === 'GET') {
+    const streams = await client.stream.findMany();
     res.json({
       ok: true,
+      streams,
     });
   }
 }
