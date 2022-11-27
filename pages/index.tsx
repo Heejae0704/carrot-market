@@ -5,6 +5,9 @@ import Layout from '@components/layout';
 import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { Product } from '@prisma/client';
+import Head from 'next/head';
+import Image from 'next/image';
+import seoul from '../public/seoul.jpeg';
 
 export interface ProductWithLike extends Product {
   _count: {
@@ -21,6 +24,9 @@ const Home: NextPage = () => {
   const { data } = useSWR<ProductsResponse>('/api/products');
   return (
     <Layout title="홈" hasTabBar>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div className="flex flex-col space-y-5 divide-y">
         {data?.products?.map((product) => (
           <Item
