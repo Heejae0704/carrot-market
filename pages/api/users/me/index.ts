@@ -10,13 +10,19 @@ async function handler(
   if (req.method === 'GET') {
     const profile = await client.user.findUnique({
       where: {
-        id: req.session.user?.id,
+        id: req.session?.user?.id,
       },
     });
-    res.json({
-      ok: true,
-      profile,
-    });
+    if (profile) {
+      res.json({
+        ok: true,
+        profile,
+      });
+    } else {
+      res.json({
+        ok: false,
+      });
+    }
   }
 
   if (req.method === 'POST') {

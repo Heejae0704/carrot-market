@@ -5,11 +5,14 @@ import useSWR from 'swr';
 
 interface ProfileResponse {
   ok: boolean;
-  profile: User;
+  profile?: User;
 }
 
+//SWR config did not cover the useUser used outside of the provider... -_-;;;
+const fetcher = (url: string) => fetch(url).then((response) => response.json());
+
 export default function useUser(isPublic = false) {
-  const { data, error } = useSWR<ProfileResponse>('/api/users/me');
+  const { data, error } = useSWR<ProfileResponse>('/api/users/me', fetcher);
   const router = useRouter();
   useEffect(() => {
     if (isPublic) return;
