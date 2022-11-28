@@ -24,6 +24,7 @@ async function handler(
       userId: foundToken.userId,
     },
   });
+  console.log(req.session.user);
   res.json({
     ok: true,
   });

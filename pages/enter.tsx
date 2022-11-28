@@ -20,11 +20,7 @@ interface MutationResult {
   ok: boolean;
 }
 
-export type NextPageOpenInPublic = NextPage & {
-  isPublic: boolean;
-};
-
-const Enter: NextPageOpenInPublic = () => {
+const Enter: NextPage = () => {
   const [enter, { loading, data, error }] =
     useMutation<MutationResult>('/api/users/enter');
   const [confirmToken, { loading: tokenLoading, data: tokenData }] =
@@ -33,6 +29,7 @@ const Enter: NextPageOpenInPublic = () => {
   const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =
     useForm<TokenForm>();
   const [method, setMethod] = useState<'email' | 'phone'>('email');
+
   const onEmailClick = () => {
     reset();
     setMethod('email');
@@ -185,5 +182,4 @@ const Enter: NextPageOpenInPublic = () => {
   );
 };
 
-Enter.isPublic = true;
 export default Enter;
